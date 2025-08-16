@@ -1,15 +1,19 @@
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Stack;
 
 public class CalculatorFrame extends JFrame implements  KeyListener {
 
-    double argument = 0.0; // argument that will be operated
-    char operator = '+'; // operator
+    // List<Double> arguments = new ArrayList<>(); // argument list that will be operated
+    // List<Character> operators = new ArrayList<>(); // operator list
     boolean carryOn = false; // permission to carry on
+    String resultText = ""; // timely helping stick
 
     // Lots of JButton declarations
     JButton buttonPlus = new JButton("+");
@@ -193,21 +197,34 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         });
          */
 
-        /*
+
         buttonPlus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonPlus) {
-                    operation = "+";
+                    Operations.shuntingYard(text.getText()));
+                    operators.add('+');
                     carryOn = true;
+                    text.setText("+");
                 }
             }
         });
+        /*
         buttonMinus.addActionListener(this);
         buttonMultiplication.addActionListener(this);
         buttonDivision.addActionListener(this);
         buttonDiv.addActionListener(this);
-        buttonEquals.addActionListener(this);
+        */
+        buttonEquals.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == buttonEquals) {
+                    resultText = String.valueOf(Operations.calculate(arguments, Float.parseFloat(text.getText()), operator));
+                    text.setText(resultText);
+                }
+            }
+        });
+        /*
         buttonClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
