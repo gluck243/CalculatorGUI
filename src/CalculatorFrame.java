@@ -12,7 +12,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
 
     // List<Double> arguments = new ArrayList<>(); // argument list that will be operated
     // List<Character> operators = new ArrayList<>(); // operator list
-    boolean carryOn = false; // permission to carry on
+    boolean carryOn, beginAnew, unclosed, wasNumber = false; // CRUCTHES, GET RID OF THEM IF POSSIBLE
     String resultText = ""; // timely helping stick
 
     // Lots of JButton declarations
@@ -22,7 +22,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
     JButton buttonDivision = new JButton("/");
     JButton buttonEquals = new JButton("=");
     JButton buttonDiv = new JButton("%");
-    JButton buttonBrackets = new JButton("()");
+    JButton buttonBrackets = new JButton("( )");
     JButton buttonClear = new JButton("Clear");
     JButton buttonNumber1 = new JButton("1");
     JButton buttonNumber2 = new JButton("2");
@@ -62,19 +62,34 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber1 && carryOn) {
+                if (e.getSource() == buttonNumber1 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("1");
+                    // System.out.println("BeginAnew " + text.getText()); // debug
+                }
+                else if (e.getSource() == buttonNumber1 && carryOn) {
+                    text.setText("1");
+                    carryOn = false;
+                    // System.out.println("CarryOn " + text.getText()); // debug
                 }
                 else if (e.getSource() == buttonNumber1) {
                     text.setText(text.getText() + "1");
+                    // System.out.println(text.getText()); // debug
                 }
             }
         });
         buttonNumber2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber2 && carryOn) {
+                if (e.getSource() == buttonNumber2 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("2");
+                }
+                else if (e.getSource() == buttonNumber2 && carryOn) {
+                    text.setText("2");
+                    carryOn = false;
                 }
                 else if (e.getSource() == buttonNumber2) {
                     text.setText(text.getText() + "2");
@@ -84,7 +99,13 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber3 && carryOn) {
+                if (e.getSource() == buttonNumber3 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
+                    text.setText("3");
+                }
+                else if (e.getSource() == buttonNumber3 && carryOn) {
+                    carryOn = false;
                     text.setText("3");
                 }
                 else if (e.getSource() == buttonNumber3) {
@@ -95,8 +116,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber4 && carryOn) {
+                if (e.getSource() == buttonNumber4 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("4");
+                }
+                else if (e.getSource() == buttonNumber4 && carryOn) {
+                    text.setText("4");
+                    carryOn = false;
                 }
                 else if (e.getSource() == buttonNumber4) {
                     text.setText(text.getText() + "4");
@@ -106,8 +133,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber5 && carryOn) {
+                if (e.getSource() == buttonNumber5 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("5");
+                }
+                else if (e.getSource() == buttonNumber5 && carryOn) {
+                    text.setText("5");
+                    carryOn = false;
                 }
                 else if (e.getSource() == buttonNumber5) {
                     text.setText(text.getText() + "5");
@@ -117,8 +150,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber6 && carryOn) {
+                if (e.getSource() == buttonNumber6 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("6");
+                }
+                else if (e.getSource() == buttonNumber6 && carryOn) {
+                    text.setText("6");
+                    carryOn = false;
                 }
                 else if (e.getSource() == buttonNumber6) {
                     text.setText(text.getText() + "6");
@@ -128,8 +167,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber7 && carryOn) {
+                if (e.getSource() == buttonNumber7 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("7");
+                }
+                else if (e.getSource() == buttonNumber7 && carryOn) {
+                    text.setText("7");
+                    carryOn = false;
                 }
                 else if (e.getSource() == buttonNumber7) {
                     text.setText(text.getText() + "7");
@@ -139,8 +184,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber8 && carryOn) {
+                if (e.getSource() == buttonNumber8 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("8");
+                }
+                else if (e.getSource() == buttonNumber8 && carryOn) {
+                    text.setText("8");
+                    carryOn = false;
                 }
                 else if (e.getSource() == buttonNumber8) {
                     text.setText(text.getText() + "8");
@@ -150,8 +201,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber9 && carryOn) {
+                if (e.getSource() == buttonNumber9 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("9");
+                }
+                else if (e.getSource() == buttonNumber9 && carryOn) {
+                    text.setText("9");
+                    carryOn = false;
                 }
                 else if (e.getSource() == buttonNumber9) {
                     text.setText(text.getText() + "9");
@@ -161,16 +218,22 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber0.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonNumber0 && carryOn) {
+                if (e.getSource() == buttonNumber0 && beginAnew) {
+                    Operations.allClear();
+                    beginAnew = false;
                     text.setText("0");
                 }
-                else if  (e.getSource() == buttonNumber0) {
+                else if (e.getSource() == buttonNumber0 && carryOn) {
+                    text.setText("0");
+                    carryOn = false;
+                }
+                else if (e.getSource() == buttonNumber0) {
                     text.setText(text.getText() + "0");
                 }
             }
         });
         // buttonNumber00.addActionListener(this);
-        // Install fail safes to . (carryOn = false if nothing after the .)
+        // Install fail safes to . (carryOn = false if nothing after the .) -- added
         buttonDot.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -178,7 +241,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     text.setText("0.");
                 }
                 else if (e.getSource() == buttonDot) {
+                    carryOn = false; // turn of carryOn!!
                     text.setText(text.getText() + ".");
+                    System.out.println(text.getText());
                 }
             }
         });
@@ -188,8 +253,6 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonDelete) {
-                    argument = 0.0;
-                    operator = '0';
                     carryOn = false;
                     text.setText("");
                 }
@@ -202,42 +265,135 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonPlus) {
-                    Operations.shuntingYard(text.getText()));
-                    operators.add('+');
+                    if (text.getText().equals("0.")) {
+                        Operations.shuntingYard(Double.parseDouble("0.0"));
+                    }
+                    else if (!text.getText().equals(")")) {
+                        Operations.shuntingYard(Double.parseDouble(text.getText()));
+                    }
+                    Operations.shuntingYard('+');
                     carryOn = true;
                     text.setText("+");
                 }
             }
         });
-        /*
-        buttonMinus.addActionListener(this);
-        buttonMultiplication.addActionListener(this);
-        buttonDivision.addActionListener(this);
-        buttonDiv.addActionListener(this);
-        */
+
+        buttonMinus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == buttonMinus) {
+                    if (text.getText().equals("0.")) {
+                        Operations.shuntingYard(Double.parseDouble("0.0"));
+                    }
+                    else if (!text.getText().equals(")")) {
+                        Operations.shuntingYard(Double.parseDouble(text.getText()));
+                    }
+                    Operations.shuntingYard('-');
+                    carryOn = true;
+                    text.setText("-");
+                }
+            }
+        });
+
+        buttonMultiplication.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == buttonMultiplication) {
+                    if (text.getText().equals("0.")) {
+                        Operations.shuntingYard(Double.parseDouble("0.0"));
+                    }
+                    else if (!text.getText().equals(")")) {
+                        Operations.shuntingYard(Double.parseDouble(text.getText()));
+                    }
+                    Operations.shuntingYard('*');
+                    carryOn = true;
+                    text.setText("*");
+                }
+            }
+        });
+
+        buttonDivision.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == buttonDivision) {
+                    if (text.getText().equals("0.")) {
+                        Operations.shuntingYard(Double.parseDouble("0.0"));
+                    }
+                    else if (!text.getText().equals(")")) {
+                        Operations.shuntingYard(Double.parseDouble(text.getText()));
+                    }
+                    Operations.shuntingYard('/');
+                    carryOn = true;
+                    text.setText("/");
+                }
+            }
+        });
+
+        buttonDiv.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == buttonDiv) {
+                    if (text.getText().equals("0.")) {
+                        Operations.shuntingYard(Double.parseDouble("0.0"));
+                    }
+                    else if (!text.getText().equals(")")) {
+                        Operations.shuntingYard(Double.parseDouble(text.getText()));
+                    }
+                    Operations.shuntingYard('%');
+                    carryOn = true;
+                    text.setText("%");
+                }
+            }
+        });
+
         buttonEquals.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonEquals) {
-                    resultText = String.valueOf(Operations.calculate(arguments, Float.parseFloat(text.getText()), operator));
+                    if (text.getText().equals("0.")) {
+                        Operations.shuntingYard(Double.parseDouble("0.0"));
+                    }
+                    else if (!text.getText().equals(")")) {
+                        Operations.shuntingYard(Double.parseDouble(text.getText()));
+                    }
+                    Operations.finalCleanup();
+                    resultText = String.valueOf(Operations.unnecessaryDouble(Operations.calculate(Operations.outputList)));
                     text.setText(resultText);
+                    beginAnew = true;
                 }
             }
         });
-        /*
+
         buttonClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonDelete) {
-                    argument = 0.0;
-                    operator = '0';
+                if (e.getSource() == buttonClear) {
                     carryOn = false;
+                    beginAnew = false;
+                    unclosed = false;
+                    Operations.allClear();
                     text.setText("");
                 }
             }
         });
-        buttonBrackets.addActionListener(this);
-         */
+        buttonBrackets.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == buttonBrackets && !wasNumber) {
+                    Operations.shuntingYard('(');
+                    text.setText("(");
+                    carryOn = true;
+                    unclosed = true;
+                }
+                else if (e.getSource() == buttonBrackets) {
+                    Operations.shuntingYard(Double.parseDouble(text.getText()));
+                    Operations.shuntingYard(')');
+                    text.setText(")");
+                    carryOn = true;
+                    unclosed = false;
+                }
+            }
+        });
 
         // Addition of button elements to the button panel
         buttonPanel.add(buttonNumber1);

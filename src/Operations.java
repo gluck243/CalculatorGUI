@@ -2,10 +2,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import static java.lang.Integer.parseInt;
+
 public class Operations {
 
-    static List<Object> outputList = new LinkedList(); // List to store the postfix expression
-    static Stack<Character> operatorStack = new Stack<>(); // Stack to store operators
+    public static List<Object> outputList = new LinkedList(); // List to store the postfix expression
+    public static Stack<Character> operatorStack = new Stack<>(); // Stack to store operators
 
     static int getPrecedence(char operator) { // checking precedence/priority
         switch (operator) {
@@ -34,23 +36,27 @@ public class Operations {
 
     static void shuntingYard(double input) { // First overloaded function for numbers
         outputList.add(input);
+        // System.out.println("Pushed " + input); // debug
     }
 
     static void shuntingYard(char input) { // Second overloaded function for operators
         if (input == '(') { // If left bracket -> push to stack
             operatorStack.push(input);
+            // System.out.println("Pushed left bracket"); // debug
         }
         else if (input == ')') { // if right bracket then add everything inside excluding brackets to stack
-            while (!operatorStack.isEmpty() && operatorStack.peek() != '(') { // ?
+            while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
                 outputList.add(operatorStack.pop());
             }
             operatorStack.pop();
+            // System.out.println("Pushed everything before and the right bracket"); // debug
         }
         else { // else handles operators by checking their precedence and acting accordingly
             while (!operatorStack.isEmpty() && hasGreaterOrEqualPrecedence(operatorStack.peek(), input)) {
                 outputList.add(operatorStack.pop());
             }
             operatorStack.push(input);
+            // System.out.println("Pushed " + input); // debug
         }
     }
 
@@ -97,6 +103,20 @@ public class Operations {
             }
         }
         return loader.pop(); // return the last item on the stack = result
+    }
+
+    static void allClear() {
+        Operations.outputList.clear();
+        Operations.operatorStack.clear();
+    }
+
+    static Number unnecessaryDouble(double result) {
+        if (result % 1 == 0) {
+            return (int) result;
+        }
+        else {
+            return result;
+        }
     }
 }
 
