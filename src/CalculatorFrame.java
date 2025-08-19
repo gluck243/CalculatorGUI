@@ -531,7 +531,8 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonDelete.setFont(new Font("Arial", Font.BOLD, 20));
 
         // text panel settings
-        text.setEditable(false);
+        text.setFont(new Font("Arial", Font.PLAIN, 50)); // sets text font and size
+        text.setEditable(false); // disables editing by user
         displayPanel.add(text);
 
         // Styling panels (width, height)
