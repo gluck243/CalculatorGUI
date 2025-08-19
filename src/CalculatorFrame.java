@@ -12,14 +12,15 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
 
     // List<Double> arguments = new ArrayList<>(); // argument list that will be operated
     // List<Character> operators = new ArrayList<>(); // operator list
-    boolean carryOn, beginAnew, unclosed, wasNumber = false; // CRUCTHES, GET RID OF THEM IF POSSIBLE
+    boolean carryOn, beginAnew = false; // CRUCTHES, GET RID OF THEM IF POSSIBLE
+    int unclosed = 0;
     String resultText = ""; // timely helping stick
 
     // Lots of JButton declarations
     JButton buttonPlus = new JButton("+");
     JButton buttonMinus = new JButton("-");
-    JButton buttonMultiplication = new JButton("X");
-    JButton buttonDivision = new JButton("/");
+    JButton buttonMultiplication = new JButton("*");
+    JButton buttonMod = new JButton("/");
     JButton buttonEquals = new JButton("=");
     JButton buttonDiv = new JButton("%");
     JButton buttonBrackets = new JButton("( )");
@@ -312,10 +313,10 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             }
         });
 
-        buttonDivision.addActionListener(new ActionListener() {
+        buttonDiv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonDivision) {
+                if (e.getSource() == buttonMod) {
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
@@ -329,7 +330,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             }
         });
 
-        buttonDiv.addActionListener(new ActionListener() {
+        buttonMod.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonDiv) {
@@ -357,8 +358,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                         Operations.shuntingYard(Double.parseDouble(text.getText()));
                     }
                     Operations.finalCleanup();
-                    resultText = String.valueOf(Operations.unnecessaryDouble(Operations.calculate(Operations.outputList)));
-                    text.setText(resultText);
+                    double finalResult = Operations.calculate(Operations.outputList);
+                    if (Double.isInfinite(finalResult) || Double.isNaN(finalResult)) {
+                        text.setText("Error: Cannot divide by zero!");
+                    }
+                    else {
+                        resultText = String.valueOf(Operations.unnecessaryDouble(finalResult));
+                        text.setText(resultText);
+                    }
                     beginAnew = true;
                 }
             }
@@ -370,7 +377,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 if (e.getSource() == buttonClear) {
                     carryOn = false;
                     beginAnew = false;
-                    unclosed = false;
+                    // unclosed = false;
                     Operations.allClear();
                     text.setText("");
                 }
@@ -379,32 +386,32 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonBrackets.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonBrackets && !wasNumber) {
+                if (e.getSource() == buttonBrackets && (text.getText().isEmpty() || text.getText().equals("(") || (text.getText().equals("+") || text.getText().equals("-") || text.getText().equals("*") || text.getText().equals("/") ||  text.getText().equals("%")))) {
                     Operations.shuntingYard('(');
                     text.setText("(");
                     carryOn = true;
-                    unclosed = true;
+                    unclosed++;
                 }
-                else if (e.getSource() == buttonBrackets) {
+                else if (e.getSource() == buttonBrackets && unclosed > 0 && Character.isDigit(text.getText().charAt(text.getText().length() - 1))) {
                     Operations.shuntingYard(Double.parseDouble(text.getText()));
                     Operations.shuntingYard(')');
                     text.setText(")");
                     carryOn = true;
-                    unclosed = false;
+                    unclosed--;
                 }
             }
         });
 
         // Addition of button elements to the button panel
-        buttonPanel.add(buttonNumber1);
-        buttonPanel.add(buttonNumber2);
-        buttonPanel.add(buttonNumber3);
-        buttonPanel.add(buttonNumber4);
-        buttonPanel.add(buttonNumber5);
-        buttonPanel.add(buttonNumber6);
         buttonPanel.add(buttonNumber7);
         buttonPanel.add(buttonNumber8);
         buttonPanel.add(buttonNumber9);
+        buttonPanel.add(buttonNumber4);
+        buttonPanel.add(buttonNumber5);
+        buttonPanel.add(buttonNumber6);
+        buttonPanel.add(buttonNumber1);
+        buttonPanel.add(buttonNumber2);
+        buttonPanel.add(buttonNumber3);
         buttonPanel.add(buttonNumber0);
         // buttonPanel.add(buttonNumber00);
         buttonPanel.add(buttonDot);
@@ -416,9 +423,112 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         operationPanel.add(buttonPlus);
         operationPanel.add(buttonMinus);
         operationPanel.add(buttonMultiplication);
-        operationPanel.add(buttonDivision);
+        operationPanel.add(buttonMod);
         operationPanel.add(buttonDiv);
         operationPanel.add(buttonEquals);
+
+        // Example of Button Styling
+        buttonNumber1.setContentAreaFilled(false); // Disables painting of the content area
+        // buttonNumber1.setBorderPainted(false); // Disables painting of the border
+        buttonNumber1.setFocusPainted(false); // Disables the focus indicator (dotted line)
+        // Set text color to be visible on the background
+        buttonNumber1.setForeground(Color.WHITE);
+        buttonNumber1.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber2.setContentAreaFilled(false);
+        buttonNumber2.setFocusPainted(false);
+        buttonNumber2.setForeground(Color.WHITE);
+        buttonNumber2.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber3.setContentAreaFilled(false);
+        buttonNumber3.setFocusPainted(false);
+        buttonNumber3.setForeground(Color.WHITE);
+        buttonNumber3.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber4.setContentAreaFilled(false);
+        buttonNumber4.setFocusPainted(false);
+        buttonNumber4.setForeground(Color.WHITE);
+        buttonNumber4.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber5.setContentAreaFilled(false);
+        buttonNumber5.setFocusPainted(false);
+        buttonNumber5.setForeground(Color.WHITE);
+        buttonNumber5.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber6.setContentAreaFilled(false);
+        buttonNumber6.setFocusPainted(false);
+        buttonNumber6.setForeground(Color.WHITE);
+        buttonNumber6.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber7.setContentAreaFilled(false);
+        buttonNumber7.setFocusPainted(false);
+        buttonNumber7.setForeground(Color.WHITE);
+        buttonNumber7.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber8.setContentAreaFilled(false);
+        buttonNumber8.setFocusPainted(false);
+        buttonNumber8.setForeground(Color.WHITE);
+        buttonNumber8.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber9.setContentAreaFilled(false);
+        buttonNumber9.setFocusPainted(false);
+        buttonNumber9.setForeground(Color.WHITE);
+        buttonNumber9.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonNumber0.setContentAreaFilled(false);
+        buttonNumber0.setFocusPainted(false);
+        buttonNumber0.setForeground(Color.WHITE);
+        buttonNumber0.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonPlus.setContentAreaFilled(false);
+        buttonPlus.setFocusPainted(false);
+        buttonPlus.setForeground(Color.WHITE);
+        buttonPlus.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonMinus.setContentAreaFilled(false);
+        buttonMinus.setFocusPainted(false);
+        buttonMinus.setForeground(Color.WHITE);
+        buttonMinus.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonMultiplication.setContentAreaFilled(false);
+        buttonMultiplication.setFocusPainted(false);
+        buttonMultiplication.setForeground(Color.WHITE);
+        buttonMultiplication.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonDiv.setContentAreaFilled(false);
+        buttonDiv.setFocusPainted(false);
+        buttonDiv.setForeground(Color.WHITE);
+        buttonDiv.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonMod.setContentAreaFilled(false);
+        buttonMod.setFocusPainted(false);
+        buttonMod.setForeground(Color.WHITE);
+        buttonMod.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonDot.setContentAreaFilled(false);
+        buttonDot.setFocusPainted(false);
+        buttonDot.setForeground(Color.WHITE);
+        buttonDot.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonEquals.setContentAreaFilled(false);
+        buttonEquals.setFocusPainted(false);
+        buttonEquals.setForeground(Color.WHITE);
+        buttonEquals.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonBrackets.setContentAreaFilled(false);
+        buttonBrackets.setFocusPainted(false);
+        buttonBrackets.setForeground(Color.WHITE);
+        buttonBrackets.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonClear.setContentAreaFilled(false);
+        buttonClear.setFocusPainted(false);
+        buttonClear.setForeground(Color.WHITE);
+        buttonClear.setFont(new Font("Arial", Font.BOLD, 20));
+
+        buttonDelete.setContentAreaFilled(false);
+        buttonDelete.setFocusPainted(false);
+        buttonDelete.setForeground(Color.WHITE);
+        buttonDelete.setFont(new Font("Arial", Font.BOLD, 20));
 
         // text panel settings
         text.setEditable(false);
