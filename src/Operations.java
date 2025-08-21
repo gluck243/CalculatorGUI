@@ -36,27 +36,27 @@ public class Operations {
 
     static void shuntingYard(double input) { // First overloaded function for numbers
         outputList.add(input);
-        // System.out.println("Pushed " + input); // debug
+        System.out.println("Pushed " + input); // debug
     }
 
     static void shuntingYard(char input) { // Second overloaded function for operators
         if (input == '(') { // If left bracket -> push to stack
             operatorStack.push(input);
-            // System.out.println("Pushed left bracket"); // debug
+            System.out.println("Pushed left bracket"); // debug
         }
         else if (input == ')') { // if right bracket then add everything inside excluding brackets to stack
             while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
                 outputList.add(operatorStack.pop());
             }
             operatorStack.pop();
-            // System.out.println("Pushed everything before and the right bracket"); // debug
+            System.out.println("Pushed everything before and the right bracket"); // debug
         }
         else { // else handles operators by checking their precedence and acting accordingly
             while (!operatorStack.isEmpty() && hasGreaterOrEqualPrecedence(operatorStack.peek(), input)) {
                 outputList.add(operatorStack.pop());
             }
             operatorStack.push(input);
-            // System.out.println("Pushed " + input); // debug
+            System.out.println("Pushed " + input); // debug
         }
     }
 

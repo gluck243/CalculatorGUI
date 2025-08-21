@@ -20,9 +20,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
     JButton buttonPlus = new JButton("+");
     JButton buttonMinus = new JButton("-");
     JButton buttonMultiplication = new JButton("*");
-    JButton buttonMod = new JButton("/");
+    JButton buttonMod = new JButton("%");
     JButton buttonEquals = new JButton("=");
-    JButton buttonDiv = new JButton("%");
+    JButton buttonDiv = new JButton("/");
     JButton buttonBrackets = new JButton("( )");
     JButton buttonClear = new JButton("Clear");
     JButton buttonNumber1 = new JButton("1");
@@ -244,7 +244,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 else if (e.getSource() == buttonDot) {
                     carryOn = false; // turn of carryOn!!
                     text.setText(text.getText() + ".");
-                    System.out.println(text.getText());
+                    // System.out.println(text.getText());
                 }
             }
         });
@@ -285,12 +285,19 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 if (e.getSource() == buttonMinus) {
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
+                        carryOn = true;
+                        Operations.shuntingYard('-');
+                    }
+                    else if (text.getText().isEmpty() || text.getText().equals("(") ||
+                            (text.getText().equals("+") || text.getText().equals("-") || text.getText().equals("*") || text.getText().equals("/") ||  text.getText().equals("%"))) {
+                        System.out.println("Negative number incoming");
+                        carryOn = false;
                     }
                     else if (!text.getText().equals(")")) {
                         Operations.shuntingYard(Double.parseDouble(text.getText()));
+                        carryOn = true;
+                        Operations.shuntingYard('-');
                     }
-                    Operations.shuntingYard('-');
-                    carryOn = true;
                     text.setText("-");
                 }
             }
@@ -316,7 +323,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonDiv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonMod) {
+                if (e.getSource() == buttonDiv) {
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
@@ -333,7 +340,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonMod.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonDiv) {
+                if (e.getSource() == buttonMod) {
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
@@ -392,7 +399,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     carryOn = true;
                     unclosed++;
                 }
-                else if (e.getSource() == buttonBrackets && unclosed > 0 && Character.isDigit(text.getText().charAt(text.getText().length() - 1))) {
+                else if (e.getSource() == buttonBrackets && unclosed > 0 && (Character.isDigit(text.getText().charAt(text.getText().length() - 1)) || text.getText().equals(")"))) {
                     Operations.shuntingYard(Double.parseDouble(text.getText()));
                     Operations.shuntingYard(')');
                     text.setText(")");
@@ -423,8 +430,8 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         operationPanel.add(buttonPlus);
         operationPanel.add(buttonMinus);
         operationPanel.add(buttonMultiplication);
-        operationPanel.add(buttonMod);
         operationPanel.add(buttonDiv);
+        operationPanel.add(buttonMod);
         operationPanel.add(buttonEquals);
 
         // Example of Button Styling
@@ -535,6 +542,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         text.setEditable(false); // disables editing by user
         displayPanel.add(text);
 
+
         // Styling panels (width, height)
         buttonPanel.setPreferredSize(new Dimension(400,400));
         operationPanel.setPreferredSize(new Dimension(200,400));
@@ -566,5 +574,16 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         //keyReleased = called whenever a button is released
+    }
+
+    public void checkMultipleOperators(char operator) {
+        if (text.getText().isEmpty()) {
+            return;
+        }
+        char lastChar = text.getText().charAt(text.getText().length() - 1);
+        if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%') {
+            System.out.println("Duplicate operator ignored.");
+            return;
+        }
     }
 }
