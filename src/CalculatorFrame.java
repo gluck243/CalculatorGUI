@@ -69,11 +69,13 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     text.setText("1");
                     // System.out.println("BeginAnew " + text.getText()); // debug
                 }
+                /*
                 else if (e.getSource() == buttonNumber1 && carryOn) {
                     text.setText("1");
                     carryOn = false;
                     // System.out.println("CarryOn " + text.getText()); // debug
                 }
+                 */
                 else if (e.getSource() == buttonNumber1) {
                     text.setText(text.getText() + "1");
                     // System.out.println(text.getText()); // debug
@@ -88,10 +90,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("2");
                 }
+                /*
                 else if (e.getSource() == buttonNumber2 && carryOn) {
                     text.setText("2");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber2) {
                     text.setText(text.getText() + "2");
                 }
@@ -105,10 +109,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("3");
                 }
+                /*
                 else if (e.getSource() == buttonNumber3 && carryOn) {
                     carryOn = false;
                     text.setText("3");
                 }
+                 */
                 else if (e.getSource() == buttonNumber3) {
                     text.setText(text.getText() + "3");
                 }
@@ -122,10 +128,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("4");
                 }
+                /*
                 else if (e.getSource() == buttonNumber4 && carryOn) {
                     text.setText("4");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber4) {
                     text.setText(text.getText() + "4");
                 }
@@ -139,10 +147,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("5");
                 }
+                /*
                 else if (e.getSource() == buttonNumber5 && carryOn) {
                     text.setText("5");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber5) {
                     text.setText(text.getText() + "5");
                 }
@@ -156,10 +166,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("6");
                 }
+                /*
                 else if (e.getSource() == buttonNumber6 && carryOn) {
                     text.setText("6");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber6) {
                     text.setText(text.getText() + "6");
                 }
@@ -173,10 +185,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("7");
                 }
+                /*
                 else if (e.getSource() == buttonNumber7 && carryOn) {
                     text.setText("7");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber7) {
                     text.setText(text.getText() + "7");
                 }
@@ -190,10 +204,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("8");
                 }
+                /*
                 else if (e.getSource() == buttonNumber8 && carryOn) {
                     text.setText("8");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber8) {
                     text.setText(text.getText() + "8");
                 }
@@ -207,10 +223,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("9");
                 }
+                /*
                 else if (e.getSource() == buttonNumber9 && carryOn) {
                     text.setText("9");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber9) {
                     text.setText(text.getText() + "9");
                 }
@@ -224,10 +242,12 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     beginAnew = false;
                     text.setText("0");
                 }
+                /*
                 else if (e.getSource() == buttonNumber0 && carryOn) {
                     text.setText("0");
                     carryOn = false;
                 }
+                 */
                 else if (e.getSource() == buttonNumber0) {
                     text.setText(text.getText() + "0");
                 }
@@ -266,15 +286,18 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonPlus) {
+                    /*
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
                     else if (!text.getText().equals(")")) {
                         Operations.shuntingYard(Double.parseDouble(text.getText()));
                     }
+                    // checkMultipleOperators('+');
                     Operations.shuntingYard('+');
                     carryOn = true;
-                    text.setText("+");
+                     */
+                    text.setText(text.getText() + "+");
                 }
             }
         });
@@ -283,6 +306,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonMinus) {
+                    /*
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                         carryOn = true;
@@ -298,7 +322,8 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                         carryOn = true;
                         Operations.shuntingYard('-');
                     }
-                    text.setText("-");
+                     */
+                    text.setText(text.getText() + "-");
                 }
             }
         });
@@ -307,6 +332,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonMultiplication) {
+                    /*
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
@@ -315,7 +341,8 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     }
                     Operations.shuntingYard('*');
                     carryOn = true;
-                    text.setText("*");
+                     */
+                    text.setText(text.getText() + "*");
                 }
             }
         });
@@ -324,6 +351,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonDiv) {
+                    /*
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
@@ -332,7 +360,8 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     }
                     Operations.shuntingYard('/');
                     carryOn = true;
-                    text.setText("/");
+                     */
+                    text.setText(text.getText() + "/");
                 }
             }
         });
@@ -341,6 +370,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonMod) {
+                    /*
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
@@ -349,7 +379,8 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     }
                     Operations.shuntingYard('%');
                     carryOn = true;
-                    text.setText("%");
+                     */
+                    text.setText(text.getText() + "%");
                 }
             }
         });
@@ -358,12 +389,15 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonEquals) {
+                    /*
                     if (text.getText().equals("0.")) {
                         Operations.shuntingYard(Double.parseDouble("0.0"));
                     }
                     else if (!text.getText().equals(")")) {
                         Operations.shuntingYard(Double.parseDouble(text.getText()));
                     }
+                     */
+                    /*
                     Operations.finalCleanup();
                     double finalResult = Operations.calculate(Operations.outputList);
                     if (Double.isInfinite(finalResult) || Double.isNaN(finalResult)) {
@@ -373,6 +407,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                         resultText = String.valueOf(Operations.unnecessaryDouble(finalResult));
                         text.setText(resultText);
                     }
+                     */
+                    System.out.println(text.getText());
+                    text.setText(Operations.tokenizer3000(text.getText()));
                     beginAnew = true;
                 }
             }
@@ -382,9 +419,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonClear) {
-                    carryOn = false;
+                    // carryOn = false;
                     beginAnew = false;
-                    // unclosed = false;
+                    unclosed = 0;
                     Operations.allClear();
                     text.setText("");
                 }
@@ -393,18 +430,38 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonBrackets.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == buttonBrackets && (text.getText().isEmpty() || text.getText().equals("(") || (text.getText().equals("+") || text.getText().equals("-") || text.getText().equals("*") || text.getText().equals("/") ||  text.getText().equals("%")))) {
-                    Operations.shuntingYard('(');
-                    text.setText("(");
-                    carryOn = true;
-                    unclosed++;
-                }
-                else if (e.getSource() == buttonBrackets && unclosed > 0 && (Character.isDigit(text.getText().charAt(text.getText().length() - 1)) || text.getText().equals(")"))) {
-                    Operations.shuntingYard(Double.parseDouble(text.getText()));
-                    Operations.shuntingYard(')');
-                    text.setText(")");
-                    carryOn = true;
-                    unclosed--;
+                if (e.getSource() == buttonBrackets) {
+                    /*
+                    if (e.getSource() == buttonBrackets && (text.getText().isEmpty() || text.getText().charAt(text.getText().length() - 1) == '(' || (text.getText().charAt(text.getText().length() - 1) == '+' || text.getText().charAt(text.getText().length() - 1) == '-' || text.getText().charAt(text.getText().length() - 1) == '*' || text.getText().charAt(text.getText().length() - 1) == '/' || text.getText().charAt(text.getText().length() - 1) == '%'))) {
+                        // Operations.shuntingYard('(');
+                        text.setText(text.getText() + "(");
+                        // carryOn = true;
+                        unclosed++;
+                    }
+                    else if (e.getSource() == buttonBrackets && unclosed > 0 && (Character.isDigit(text.getText().charAt(text.getText().length() - 1)) || text.getText().charAt(text.getText().length()) == ')')) {
+                        // Operations.shuntingYard(Double.parseDouble(text.getText()));
+                        // Operations.shuntingYard(')');
+                        text.setText(text.getText() + ")");
+                        // carryOn = true;
+                        unclosed--;
+                    }
+                     */
+
+                    char lastChar = ' ';
+                    if (!text.getText().isEmpty()) {
+                        lastChar = text.getText().charAt(text.getText().length() - 1);
+                    }
+
+                    if (unclosed > 0 && (Character.isDigit(lastChar) || lastChar == ')')) {
+                        text.setText(text.getText() + ")");
+                        unclosed--;
+                    } else if (text.getText().isEmpty() || Operations.isOperator(lastChar) || lastChar == '(') {
+                        text.setText(text.getText() + "(");
+                        unclosed++;
+                    } else if (Character.isDigit(lastChar) || lastChar == ')') {
+                        text.setText(text.getText() + "(");
+                        unclosed++;
+                    }
                 }
             }
         });
@@ -578,6 +635,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
 
     public void checkMultipleOperators(char operator) {
         if (text.getText().isEmpty()) {
+            System.out.println("Got empty string");
             return;
         }
         char lastChar = text.getText().charAt(text.getText().length() - 1);
@@ -585,5 +643,11 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             System.out.println("Duplicate operator ignored.");
             return;
         }
+
+        System.out.println("No Duplicates found");
+        Operations.shuntingYard(operator);
+        text.setText(String.valueOf(operator));
     }
+
+
 }

@@ -2,6 +2,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import static java.lang.Character.isDigit;
 import static java.lang.Integer.parseInt;
 
 public class Operations {
@@ -118,6 +119,44 @@ public class Operations {
             return result;
         }
     }
+
+    static String tokenizer3000(String input) {
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (c == '(' || c == ')' || c == '+' || c == '*' || c == '/' || c == '%') {
+                if (c == '(' && i > 0 && (Character.isDigit(input.charAt(i - 1)) || input.charAt(i - 1) == ')')) {
+                    shuntingYard('*');
+                    shuntingYard(c);
+                }
+                else
+                    shuntingYard(c);
+            }
+            else if (Character.isDigit(c) || (c == '-' && (i == 0 || isOperator(input.charAt(i - 1)) || input.charAt(i - 1) == '('))) {
+                int first = i;
+
+                while (i + 1 < input.length() && (Character.isDigit(input.charAt(i + 1)) || input.charAt(i + 1) == '.')) {
+                    i++;
+                }
+
+                String fullNumber = input.substring(first, i + 1);
+                Operations.shuntingYard(Double.parseDouble(fullNumber));
+            }
+
+            else if (c == '-') {
+                shuntingYard(c);
+            }
+        }
+        finalCleanup();
+        double finalResult = calculate(outputList);
+        if (Double.isInfinite(finalResult) || Double.isNaN(finalResult)) {
+            return "Cannot divide by zero!";
+        }
+        else {
+            return String.valueOf(Operations.unnecessaryDouble(finalResult));
+        }
+    }
+
+    static boolean isOperator(char o) {
+        return o == '+' || o == '-' || o == '*' || o == '/' || o == '%';
+    }
 }
-
-
