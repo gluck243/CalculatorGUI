@@ -24,6 +24,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
     JButton buttonEquals = new JButton("=");
     JButton buttonDiv = new JButton("/");
     JButton buttonBrackets = new JButton("( )");
+    // JButton buttonSwap = new JButton("swap");
     JButton buttonClear = new JButton("Clear");
     JButton buttonNumber1 = new JButton("1");
     JButton buttonNumber2 = new JButton("2");
@@ -455,13 +456,15 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     if (unclosed > 0 && (Character.isDigit(lastChar) || lastChar == ')')) {
                         text.setText(text.getText() + ")");
                         unclosed--;
-                    } else if (text.getText().isEmpty() || Operations.isOperator(lastChar) || lastChar == '(') {
-                        text.setText(text.getText() + "(");
-                        unclosed++;
-                    } else if (Character.isDigit(lastChar) || lastChar == ')') {
-                        text.setText(text.getText() + "(");
-                        unclosed++;
+                        return;
                     }
+
+                    if (Character.isDigit(lastChar) || lastChar == ')') {
+                        text.setText(text.getText() + "*(");
+                    } else {
+                        text.setText(text.getText() + "(");
+                    }
+                    unclosed++;
                 }
             }
         });
@@ -484,6 +487,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         // Addition of functional buttons to operation panel
         operationPanel.add(buttonClear);
         operationPanel.add(buttonBrackets);
+        // operationPanel.add(buttonSwap);
         operationPanel.add(buttonPlus);
         operationPanel.add(buttonMinus);
         operationPanel.add(buttonMultiplication);

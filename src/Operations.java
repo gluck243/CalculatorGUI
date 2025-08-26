@@ -124,11 +124,6 @@ public class Operations {
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
             if (c == '(' || c == ')' || c == '+' || c == '*' || c == '/' || c == '%') {
-                if (c == '(' && i > 0 && (Character.isDigit(input.charAt(i - 1)) || input.charAt(i - 1) == ')')) {
-                    shuntingYard('*');
-                    shuntingYard(c);
-                }
-                else
                     shuntingYard(c);
             }
             else if (Character.isDigit(c) || (c == '-' && (i == 0 || isOperator(input.charAt(i - 1)) || input.charAt(i - 1) == '('))) {
