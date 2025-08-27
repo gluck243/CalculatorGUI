@@ -1,20 +1,15 @@
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Stack;
+import java.util.Objects;
 
 public class CalculatorFrame extends JFrame implements  KeyListener {
 
-    // List<Double> arguments = new ArrayList<>(); // argument list that will be operated
-    // List<Character> operators = new ArrayList<>(); // operator list
-    boolean carryOn, beginAnew = false; // CRUCTHES, GET RID OF THEM IF POSSIBLE
-    int unclosed = 0;
-    String resultText = ""; // timely helping stick
+    boolean beginAnew = false; // Allows display refreshment on '=' press
+    int unclosed = 0; // Unclosed parenthesis counter
 
     // Lots of JButton declarations
     JButton buttonPlus = new JButton("+");
@@ -23,8 +18,10 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
     JButton buttonMod = new JButton("%");
     JButton buttonEquals = new JButton("=");
     JButton buttonDiv = new JButton("/");
+    JButton swapModeButton = new JButton();
     JButton buttonBrackets = new JButton("( )");
-    // JButton buttonSwap = new JButton("swap");
+    JButton openParenButton = new JButton("(");
+    JButton closeParenButton = new JButton(")");
     JButton buttonClear = new JButton("Clear");
     JButton buttonNumber1 = new JButton("1");
     JButton buttonNumber2 = new JButton("2");
@@ -38,7 +35,11 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
     JButton buttonNumber0 = new JButton("0");
     // JButton buttonNumber00 = new JButton("00");
     JButton buttonDot = new JButton(".");
-    JButton buttonDelete = new JButton("Delete"); // add icon
+    JButton buttonDelete = new JButton();
+
+    // Icon declarations
+    ImageIcon deleteIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("icons/DelButtonIcon.png")));
+    ImageIcon swapIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("icons/SwapArrowsIcon.png")));
 
     JTextField text =  new JTextField(); // display text field declaration
 
@@ -54,6 +55,14 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         JPanel buttonPanel = new JPanel();
         JPanel operationPanel = new JPanel();
         JPanel displayPanel = new JPanel();
+
+        // CardLayout Setup
+        CardLayout cardLayout = new CardLayout();
+        JPanel parenPanelContainer = new JPanel(cardLayout);
+        JPanel autoModePanel = new JPanel(new GridLayout(1, 1)); // Fills the space
+        JPanel manualModePanel = new JPanel(new GridLayout(1, 2)); // Two buttons side-by-side
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        JPanel swapButtonPanel = new JPanel(new BorderLayout()); // Small panel to keep the swap button small
 
         // Setting layouts of declared panels (first arg = rows, second arg = columns)
         buttonPanel.setLayout(new GridLayout(4, 3));
@@ -83,6 +92,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,6 +112,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,6 +132,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,6 +152,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -159,6 +172,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -178,6 +192,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -197,6 +212,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -216,6 +232,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,6 +252,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonNumber0.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -254,8 +272,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
-        // buttonNumber00.addActionListener(this);
-        // Install fail safes to . (carryOn = false if nothing after the .) -- added
+
         buttonDot.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -263,25 +280,23 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     text.setText("0.");
                 }
                 else if (e.getSource() == buttonDot) {
-                    carryOn = false; // turn of carryOn!!
+                    // carryOn = false; // turn off carryOn!!
                     text.setText(text.getText() + ".");
                     // System.out.println(text.getText());
                 }
             }
         });
 
-        // Work in progress!
-        /* buttonDelete.addActionListener(new ActionListener() {
+        buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == buttonDelete) {
-                    carryOn = false;
-                    text.setText("");
+                    if (!text.getText().isEmpty()) {
+                        text.setText(text.getText().substring(0, text.getText().length() - 1));
+                    }
                 }
             }
         });
-         */
-
 
         buttonPlus.addActionListener(new ActionListener() {
             @Override
@@ -298,7 +313,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('+');
                     carryOn = true;
                      */
-                    text.setText(text.getText() + "+");
+                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                        text.setText(text.getText() + "+");
+                    }
                 }
             }
         });
@@ -324,7 +341,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                         Operations.shuntingYard('-');
                     }
                      */
-                    text.setText(text.getText() + "-");
+                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                        text.setText(text.getText() + "-");
+                    }
                 }
             }
         });
@@ -343,7 +362,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('*');
                     carryOn = true;
                      */
-                    text.setText(text.getText() + "*");
+                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                        text.setText(text.getText() + "*");
+                    }
                 }
             }
         });
@@ -362,7 +383,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('/');
                     carryOn = true;
                      */
-                    text.setText(text.getText() + "/");
+                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                        text.setText(text.getText() + "/");
+                    }
                 }
             }
         });
@@ -381,7 +404,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('%');
                     carryOn = true;
                      */
-                    text.setText(text.getText() + "%");
+                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                        text.setText(text.getText() + "%");
+                    }
                 }
             }
         });
@@ -409,8 +434,25 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                         text.setText(resultText);
                     }
                      */
-                    System.out.println(text.getText());
-                    text.setText(Operations.tokenizer3000(text.getText()));
+                    // System.out.println(text.getText());
+                    try {
+                        // First, checking for mismatched parentheses before tokenizing.
+                        if (unclosed != 0) {
+                            throw new MismatchedParenthesesException("Brackets don't match.");
+                        }
+
+                        // Then, proceeding with tokenizing and calculation.
+                        String result = Operations.tokenizer3000(text.getText());
+                        text.setText(result);
+
+                    } catch (MismatchedParenthesesException ex) {
+                        text.setText("Error: Mismatched brackets");
+                    } catch (IllegalArgumentException ex) {
+                        text.setText("Error: Invalid expression");
+                    } catch (Exception ex) {
+                        // Final catch-all for any other unexpected error.
+                        text.setText("An unknown error occurred");
+                    }
                     beginAnew = true;
                 }
             }
@@ -428,6 +470,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                 }
             }
         });
+
         buttonBrackets.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -469,6 +512,22 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
             }
         });
 
+        openParenButton.addActionListener(e -> {
+            text.setText(text.getText() + "(");
+            unclosed++;
+        });
+
+        closeParenButton.addActionListener(e -> {
+            if (unclosed > 0 && !Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                text.setText(text.getText() + ")");
+                unclosed--;
+            }
+        });
+
+        swapModeButton.addActionListener(e -> {
+            cardLayout.next(parenPanelContainer); // This line tells the CardLayout to show the next card
+        });
+
         // Addition of button elements to the button panel
         buttonPanel.add(buttonNumber7);
         buttonPanel.add(buttonNumber8);
@@ -486,8 +545,16 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
 
         // Addition of functional buttons to operation panel
         operationPanel.add(buttonClear);
-        operationPanel.add(buttonBrackets);
-        // operationPanel.add(buttonSwap);
+        operationPanel.add(wrapperPanel);
+        // operationPanel.add(buttonBrackets);
+        autoModePanel.add(buttonBrackets);
+        manualModePanel.add(openParenButton);
+        manualModePanel.add(closeParenButton);
+        parenPanelContainer.add(autoModePanel, "AUTO");
+        parenPanelContainer.add(manualModePanel, "MANUAL");
+        swapButtonPanel.add(swapModeButton);
+        wrapperPanel.add(swapButtonPanel, BorderLayout.NORTH);
+        wrapperPanel.add(parenPanelContainer, BorderLayout.CENTER);
         operationPanel.add(buttonPlus);
         operationPanel.add(buttonMinus);
         operationPanel.add(buttonMultiplication);
@@ -499,9 +566,8 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonNumber1.setContentAreaFilled(false); // Disables painting of the content area
         // buttonNumber1.setBorderPainted(false); // Disables painting of the border
         buttonNumber1.setFocusPainted(false); // Disables the focus indicator (dotted line)
-        // Set text color to be visible on the background
-        buttonNumber1.setForeground(Color.WHITE);
-        buttonNumber1.setFont(new Font("Arial", Font.BOLD, 20));
+        buttonNumber1.setForeground(Color.WHITE); // Set text color to be visible on the background
+        buttonNumber1.setFont(new Font("Arial", Font.BOLD, 20)); // Font Setup
 
         buttonNumber2.setContentAreaFilled(false);
         buttonNumber2.setFocusPainted(false);
@@ -583,6 +649,32 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonEquals.setForeground(Color.WHITE);
         buttonEquals.setFont(new Font("Arial", Font.BOLD, 20));
 
+        // swapModeButton.setContentAreaFilled(false);
+        swapModeButton.setFocusPainted(false);
+        // swapModeButton.setBorderPainted(false);
+        Image originalSwapImage = swapIcon.getImage(); // Extracts an image from an icon
+        int desiredWidth = 24; // 24 pixels wide
+        int desiredHeight = 24; // 24 pixels tall
+        Image resizedSwapImage = originalSwapImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH); // Image resize
+        ImageIcon resizedSwapIcon = new ImageIcon(resizedSwapImage); // Application
+        swapModeButton.setIcon(resizedSwapIcon);
+        swapModeButton.setMargin(new Insets(0, 0, 0, 0));
+        // swapModeButton.setBorder(null);
+        swapModeButton.setContentAreaFilled(false); // Setting transparent background
+        // swapModeButton.setPreferredSize(new Dimension(30, 20));
+        // swapModeButton.setForeground(Color.WHITE);
+        // swapModeButton.setFont(new Font("Arial", Font.BOLD, 20));
+
+        openParenButton.setContentAreaFilled(false);
+        openParenButton.setFocusPainted(false);
+        openParenButton.setForeground(Color.WHITE);
+        openParenButton.setFont(new Font("Arial", Font.BOLD, 20));
+
+        closeParenButton.setContentAreaFilled(false);
+        closeParenButton.setFocusPainted(false);
+        closeParenButton.setForeground(Color.WHITE);
+        closeParenButton.setFont(new Font("Arial", Font.BOLD, 20));
+
         buttonBrackets.setContentAreaFilled(false);
         buttonBrackets.setFocusPainted(false);
         buttonBrackets.setForeground(Color.WHITE);
@@ -593,10 +685,18 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         buttonClear.setForeground(Color.WHITE);
         buttonClear.setFont(new Font("Arial", Font.BOLD, 20));
 
-        buttonDelete.setContentAreaFilled(false);
+        // buttonDelete.setContentAreaFilled(false);
         buttonDelete.setFocusPainted(false);
-        buttonDelete.setForeground(Color.WHITE);
-        buttonDelete.setFont(new Font("Arial", Font.BOLD, 20));
+        // buttonDelete.setBorderPainted(false);
+        Image originalDeleteImage = deleteIcon.getImage();
+        Image resizedDeleteImage = originalDeleteImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
+        ImageIcon resizedDeleteIcon = new ImageIcon(resizedDeleteImage);
+        buttonDelete.setIcon(resizedDeleteIcon);
+        buttonDelete.setMargin(new Insets(0, 0, 0, 0));
+        // buttonDelete.setBorder(null);
+        buttonDelete.setContentAreaFilled(false); // transparent background
+        // buttonDelete.setForeground(Color.WHITE);
+        // buttonDelete.setFont(new Font("Arial", Font.BOLD, 20));
 
         // text panel settings
         text.setFont(new Font("Arial", Font.PLAIN, 50)); // sets text font and size
@@ -611,6 +711,9 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
         operationPanel.setBackground(new Color(66, 135, 245));
         displayPanel.setBackground(Color.WHITE);
         buttonPanel.setBackground(new Color(36, 75, 138));
+        autoModePanel.setBackground(new Color(66, 135, 245));
+        manualModePanel.setBackground(new Color(66, 135, 245));
+        swapButtonPanel.setBackground(new Color(66, 135, 245));
 
         // Panel addition to the frame with layout position
         this.add(operationPanel, BorderLayout.EAST);
@@ -636,22 +739,4 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
     public void keyReleased(KeyEvent e) {
         //keyReleased = called whenever a button is released
     }
-
-    public void checkMultipleOperators(char operator) {
-        if (text.getText().isEmpty()) {
-            System.out.println("Got empty string");
-            return;
-        }
-        char lastChar = text.getText().charAt(text.getText().length() - 1);
-        if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%') {
-            System.out.println("Duplicate operator ignored.");
-            return;
-        }
-
-        System.out.println("No Duplicates found");
-        Operations.shuntingYard(operator);
-        text.setText(String.valueOf(operator));
-    }
-
-
 }
