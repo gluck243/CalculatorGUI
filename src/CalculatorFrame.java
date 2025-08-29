@@ -313,7 +313,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('+');
                     carryOn = true;
                      */
-                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                    if (!text.getText().isEmpty() && !Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
                         text.setText(text.getText() + "+");
                     }
                 }
@@ -341,7 +341,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                         Operations.shuntingYard('-');
                     }
                      */
-                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                    if (text.getText().isEmpty() || text.getText().charAt(text.getText().length() - 1) != '-') {
                         text.setText(text.getText() + "-");
                     }
                 }
@@ -362,7 +362,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('*');
                     carryOn = true;
                      */
-                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                    if (!text.getText().isEmpty() && !Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
                         text.setText(text.getText() + "*");
                     }
                 }
@@ -383,7 +383,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('/');
                     carryOn = true;
                      */
-                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                    if (!text.getText().isEmpty() && !Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
                         text.setText(text.getText() + "/");
                     }
                 }
@@ -404,7 +404,7 @@ public class CalculatorFrame extends JFrame implements  KeyListener {
                     Operations.shuntingYard('%');
                     carryOn = true;
                      */
-                    if (!Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
+                    if (!text.getText().isEmpty() && !Operations.isOperator(text.getText().charAt(text.getText().length() - 1)) && text.getText().charAt(text.getText().length() - 1) != '(') {
                         text.setText(text.getText() + "%");
                     }
                 }
