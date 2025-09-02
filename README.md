@@ -2,8 +2,6 @@
 
 A robust calculator built with Java and the Swing GUI framework. This project implements the core logic for parsing and evaluating complex mathematical expressions, including correct operator precedence, parentheses, and advanced features like implicit multiplication.
 
-*To add your screenshot, upload one to a site like Imgur and replace the URL above.*
-
 ## Features
 
 This calculator goes beyond basic arithmetic and includes features found in scientific calculators:
