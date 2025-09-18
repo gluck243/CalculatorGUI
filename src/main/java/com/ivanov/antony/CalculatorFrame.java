@@ -1,19 +1,29 @@
 package com.ivanov.antony;
 
-import com.ivanov.antony.buttons.*;
-import com.ivanov.antony.evaluator.ReversePolishNotationEvaluator;
-import com.ivanov.antony.parser.ReversePolishNotationParser;
-import com.ivanov.antony.tokenizer.Tokenizer;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
-import static com.ivanov.antony.tokenizer.MathOperationToken.*;
+public class CalculatorFrame extends javafx.application.Application {
 
-public class CalculatorFrame extends JFrame {
+    @Override
+    public void start(Stage stage) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/ivanov/antony/CalculatorView.fxml")));
+        Scene scene = new Scene(root, 600, 600);
+        stage.setTitle("Calculator");
+        // Image icon = new Image("file:icon.png");
+        // stage.getIcons().add(icon);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     // Constructor body
-    public CalculatorFrame() {
+    /*public CalculatorFrame() {
         this.setTitle("Calculator"); // title declaration
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // closing window on x press
         this.setSize(600, 600); // window size
@@ -100,5 +110,5 @@ public class CalculatorFrame extends JFrame {
 
         this.pack(); // makes all elements compact
         this.setVisible(true); // visibility of the frame
-    }
+    }*/
 }
