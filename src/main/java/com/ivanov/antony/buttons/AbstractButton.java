@@ -2,12 +2,13 @@ package com.ivanov.antony.buttons;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AbstractButton extends JButton {
+public class AbstractButton extends JButton{
 
     public AbstractButton(String text, ActionListener action) {
-//        this(action);
+        //this(action);
         this.addActionListener(action);
         this.setText(text);
     }
