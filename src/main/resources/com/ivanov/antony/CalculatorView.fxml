@@ -5,7 +5,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ivanov.antony.Controller">
@@ -102,11 +105,6 @@
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button fx:id="buttonBrackets" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnBracketsButtonPressed" prefHeight="135.0" prefWidth="101.0" style="-fx-background-color: rgba(100, 100, 250, 0); -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 6px; -fx-background-radius: 6px;" text="( )" GridPane.columnIndex="1">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Button>
             <Button fx:id="buttonPlus" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onAction="#onPlusButtonPressed" prefHeight="135.0" prefWidth="101.0" style="-fx-background-color: rgba(100, 100, 250, 0); -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 6px; -fx-background-radius: 6px;" text="+" GridPane.rowIndex="1">
                <font>
                   <Font size="26.0" />
@@ -137,9 +135,34 @@
                   <Font size="26.0" />
                </font>
             </Button>
+            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <VBox fx:id="normalModePane" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="buttonShift" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onShiftButtonPressed" prefHeight="50.0" prefWidth="100.0" text="Shift" />
+                        <Button fx:id="buttonBrackets" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#OnBracketsButtonPressed" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: rgba(100, 100, 250, 0); -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 6px; -fx-background-radius: 6px;" text="( )">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="shiftModePane" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onShiftButtonPressed" prefHeight="50.0" prefWidth="100.0" text="SHIFT" />
+                        <HBox prefHeight="50.0" prefWidth="100.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onBracketOpen" prefHeight="50.0" prefWidth="50.0" text="(" />
+                              <Button mnemonicParsing="false" onAction="#onBracketClose" prefHeight="50.0" prefWidth="50.0" text=")" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
          </children>
       </GridPane>
-      <TextField fx:id="textField" prefHeight="200.0" prefWidth="600.0">
+      <TextField fx:id="textField" onAction="#initialize" prefHeight="200.0" prefWidth="600.0">
          <font>
             <Font size="89.0" />
          </font>

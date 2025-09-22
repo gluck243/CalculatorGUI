@@ -41,18 +41,20 @@ public class ReversePolishNotationParser implements Parser {
         return polishNotation;
     }
 
-    private void shuntingYard(BracketToken token, Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) { // Second overloaded function for operators
+    private void shuntingYard(BracketToken token, Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) {
         if (token == OPENED_BRACKET) { // If left bracket -> push to stack
-            operatorDeque.addFirst(BRACKET_NODE);
+            operatorDeque.addLast(BRACKET_NODE);
         } else if (token == CLOSED_BRACKET) { // if right bracket then add everything inside excluding brackets to stack
             while (!operatorDeque.isEmpty() && operatorDeque.getFirst() != BRACKET_NODE) {
                 polishNotation.add(operatorDeque.removeFirst());
             }
-            operatorDeque.removeFirst();
+            if (!operatorDeque.isEmpty()) {
+                operatorDeque.removeFirst();
+            }
         }
     }
 
-    private void shuntingYard(MathOperationToken token, Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) { // Second overloaded function for operators
+    private void shuntingYard(MathOperationToken token, Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) {
         OperationNotationNode operationNode = tokenToOperation(token);
         while (!operatorDeque.isEmpty() && hasGreaterOrEqualPrecedence(operatorDeque.getLast(), operationNode)) {
             polishNotation.add(operatorDeque.removeFirst());
@@ -60,18 +62,18 @@ public class ReversePolishNotationParser implements Parser {
         operatorDeque.push(operationNode);
     }
 
-    private void shuntingYard(double number, List<Node> polishNotation) { // Second overloaded function for operators
+    private void shuntingYard(double number, List<Node> polishNotation) {
         polishNotation.add(new NumberNotationNode(number));
     }
 
-    static void finalCleanup(Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) { // important final cleanup emptying the rest of the stack into the list
+    static void finalCleanup(Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) {
         while (!operatorDeque.isEmpty()) {
             polishNotation.add(operatorDeque.removeFirst());
         }
     }
 
     private boolean hasGreaterOrEqualPrecedence(OperationNotationNode operatorFromStack, OperationNotationNode currentOperator) {
-        return operatorFromStack.getPrecedence() >= currentOperator.getPrecedence(); // if precedence is same or higher - start the procedure
+        return operatorFromStack.getPrecedence() >= currentOperator.getPrecedence();
     }
 
     private OperationNotationNode tokenToOperation(MathOperationToken token) {
