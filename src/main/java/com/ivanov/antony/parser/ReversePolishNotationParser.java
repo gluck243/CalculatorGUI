@@ -45,11 +45,11 @@ public class ReversePolishNotationParser implements Parser {
         if (token == OPENED_BRACKET) {
             operatorDeque.addLast(BRACKET_NODE);
         } else if (token == CLOSED_BRACKET) {
-            while (!operatorDeque.isEmpty() && operatorDeque.getFirst() != BRACKET_NODE) {
-                polishNotation.add(operatorDeque.removeFirst());
+            while (!operatorDeque.isEmpty() && operatorDeque.getLast() != BRACKET_NODE) {
+                polishNotation.add(operatorDeque.removeLast());
             }
             if (!operatorDeque.isEmpty()) {
-                operatorDeque.removeFirst();
+                operatorDeque.removeLast(); // changed from RemoveFirst
             }
         }
     }
@@ -57,9 +57,9 @@ public class ReversePolishNotationParser implements Parser {
     private void shuntingYard(MathOperationToken token, Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) {
         OperationNotationNode operationNode = tokenToOperation(token);
         while (!operatorDeque.isEmpty() && hasGreaterOrEqualPrecedence(operatorDeque.getLast(), operationNode)) {
-            polishNotation.add(operatorDeque.removeFirst());
+            polishNotation.add(operatorDeque.removeLast()); // changed from RemoveFirst
         }
-        operatorDeque.push(operationNode);
+        operatorDeque.addLast(operationNode); // changed from push
     }
 
     private void shuntingYard(double number, List<Node> polishNotation) {
@@ -68,7 +68,7 @@ public class ReversePolishNotationParser implements Parser {
 
     static void finalCleanup(Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) {
         while (!operatorDeque.isEmpty()) {
-            polishNotation.add(operatorDeque.removeFirst());
+            polishNotation.add(operatorDeque.removeLast());
         }
     }
 

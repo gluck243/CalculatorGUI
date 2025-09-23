@@ -41,93 +41,57 @@ public class Controller {
         });
     }
 
+    public void displayUpdate(Supplier<Token[]> tokenize, boolean append) {
+        Token[] tokens = tokenize.get();
+        StringBuilder textToDisplay = new StringBuilder();
+        if (append) {
+            textToDisplay.append(textField.getText());
+        }
+        for (Token token : tokens) {
+            textToDisplay.append(token.getValue());
+        }
+        textField.setText(textToDisplay.toString());
+    }
+
     public void onNumberButtonPressed(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
-        Supplier<Token[]> tokenize = () -> tokenizer.addDigit(Integer.parseInt(clickedButton.getText()));
-        if (tokenizer.isEmpty()) {
-            Token[] tokens = tokenize.get();
-            for (Token token : tokens) {
-                textField.setText("" + token.getValue());
-            }
-        }
-        else {
-            Token[] tokens = tokenize.get();
-            for (Token token : tokens) {
-                textField.setText(textField.getText() + token.getValue());
-            }
-        }
+        displayUpdate(() -> tokenizer.addDigit(Integer.parseInt(clickedButton.getText())), !tokenizer.isEmpty());
     }
 
     public void onDotButtonPressed() {
-        Supplier<Token[]> tokenize = tokenizer::addDot;
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(tokenizer::addDot, true);
     }
 
     public void onPlusButtonPressed() {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(PLUS);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(() -> tokenizer.addMathOperation(PLUS), true);
     }
 
     public void onMinusButtonPressed() {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MINIS);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(() -> tokenizer.addMathOperation(MINIS), !tokenizer.isEmpty());
     }
 
     public void onMultiplicationButtonPressed() {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MULTIPLY);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(() -> tokenizer.addMathOperation(MULTIPLY), true);
     }
 
     public void onDivButtonPressed() {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(DIVIDE);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(() -> tokenizer.addMathOperation(DIVIDE), true);
     }
 
     public void onModButtonPressed() {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MOD);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(() -> tokenizer.addMathOperation(MOD), true);
     }
 
     public void OnBracketsButtonPressed() {
-        Supplier<Token[]> tokenize = tokenizer::addBracket;
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(tokenizer::addBracket, !tokenizer.isEmpty());
     }
 
     public void onBracketOpen() {
-        Supplier<Token[]> tokenize = tokenizer::addOpenedBracket;
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(tokenizer::addOpenedBracket, !tokenizer.isEmpty());
     }
 
     public void onBracketClose() {
-        Supplier<Token[]> tokenize = tokenizer::addClosedBracket;
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
+        displayUpdate(tokenizer::addClosedBracket, true);
     }
 
     public void onDeleteButtonPressed() {
@@ -155,11 +119,9 @@ public class Controller {
 
     public void inEqualsButtonPressed() {
         try {
-            // First, checking for mismatched parentheses before tokenizing.
             if (tokenizer.isOpenedBracket()) {
                 textField.setText("Error: Mismatched brackets");
             } else {
-                // Then, proceeding with tokenizing and calculation.
                 List<Node> nodes = parser.parse(tokenizer.getTokens());
                 try {
                     if (evaluator.evaluate(nodes) % 1 == 0) {
@@ -172,6 +134,7 @@ public class Controller {
             }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             textField.setText("An unknown error occurred");
         } finally {
             tokenizer.clearTokens();
