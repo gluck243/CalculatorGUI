@@ -69,7 +69,16 @@ public class Tokenizer {
     }
 
     public Token[] addOpenedBracket() {
-        Token[] tokens = new Token[]{OPENED_BRACKET};
+        Token[] tokens;
+        Token lastToken = null;
+        if (!isEmpty()) {
+            lastToken = getLastToken();
+        }
+        if (lastToken instanceof DigitToken || lastToken == CLOSED_BRACKET) {
+            tokens = new Token[]{MULTIPLY, OPENED_BRACKET};
+        } else {
+            tokens = new Token[]{OPENED_BRACKET};
+        }
         addTokens(tokens);
         openBracket();
         return tokens;

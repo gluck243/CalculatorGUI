@@ -15,6 +15,7 @@ public class CalculatorFrame extends javafx.application.Application {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/ivanov/antony/CalculatorView.fxml")));
         Scene scene = new Scene(root, 600, 600);
         stage.setTitle("Calculator");
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm());
         // Image icon = new Image("file:icon.png");
         // stage.getIcons().add(icon);
         stage.setResizable(false);

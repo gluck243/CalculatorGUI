@@ -1,7 +1,5 @@
 package com.ivanov.antony;
 
-import com.ivanov.antony.buttons.AbstractButton;
-import com.ivanov.antony.buttons.InputButton;
 import com.ivanov.antony.evaluator.Evaluator;
 import com.ivanov.antony.evaluator.ReversePolishNotationEvaluator;
 import com.ivanov.antony.parser.Node;
@@ -9,17 +7,14 @@ import com.ivanov.antony.parser.Parser;
 import com.ivanov.antony.parser.ReversePolishNotationParser;
 import com.ivanov.antony.tokenizer.Token;
 import com.ivanov.antony.tokenizer.Tokenizer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-
-import javax.print.DocFlavor;
-import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
 import static com.ivanov.antony.tokenizer.MathOperationToken.*;
@@ -32,79 +27,6 @@ public class Controller {
 
     @FXML
     private TextField textField;
-
-    @FXML
-    public void initialize() {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            textField.positionCaret(newValue.length());
-        });
-    }
-
-    public void onNumberButtonPressed(ActionEvent event) {
-        Button clickedButton = (Button) event.getSource();
-        Supplier<Token[]> tokenize = () -> tokenizer.addDigit(Integer.parseInt(clickedButton.getText()));
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
-        // I need the text to appear in the textfield
-        // I need the number or operation to be tokenized
-    }
-
-    public void onPlusButtonPressed(ActionEvent event) {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(PLUS);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
-    }public void onMinusButtonPressed(ActionEvent event) {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MINIS);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
-    }public void onMultiplicationButtonPressed(ActionEvent event) {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MULTIPLY);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
-    }public void onDivButtonPressed(ActionEvent event) {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(DIVIDE);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
-    }public void onModButtonPressed(ActionEvent event) {
-        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MOD);
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
-    }
-
-    public void OnBracketsButtonPressed(ActionEvent event) {
-        Supplier<Token[]> tokenize = tokenizer::addBracket;
-        Token[] tokens = tokenize.get();
-        for (Token token : tokens) {
-            textField.setText(textField.getText() + token.getValue());
-        }
-    }
-
-    public void onBracketOpen(ActionEvent event) {}
-    public void onBracketClose(ActionEvent event) {}
-
-    public void onDeleteButtonPressed() {
-        textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
-        tokenizer.deleteLastToken();
-    }
-
-    public void onClearButtonPressed(ActionEvent event) {
-//        Button clickedButton = (Button) event.getSource();
-        textField.setText("");
-        tokenizer.clearTokens();
-    }
-
     @FXML
     private VBox normalModePane;
     @FXML
@@ -113,21 +35,122 @@ public class Controller {
     private boolean isShiftMode = false;
 
     @FXML
-    private void onShiftButtonPressed(ActionEvent event) {
+    public void initialize() {
+        textField.textProperty().addListener((obs, oldText, newText) -> {
+            Platform.runLater(() -> textField.end());
+        });
+    }
+
+    public void onNumberButtonPressed(ActionEvent event) {
+        Button clickedButton = (Button) event.getSource();
+        Supplier<Token[]> tokenize = () -> tokenizer.addDigit(Integer.parseInt(clickedButton.getText()));
+        if (tokenizer.isEmpty()) {
+            Token[] tokens = tokenize.get();
+            for (Token token : tokens) {
+                textField.setText("" + token.getValue());
+            }
+        }
+        else {
+            Token[] tokens = tokenize.get();
+            for (Token token : tokens) {
+                textField.setText(textField.getText() + token.getValue());
+            }
+        }
+    }
+
+    public void onDotButtonPressed() {
+        Supplier<Token[]> tokenize = tokenizer::addDot;
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onPlusButtonPressed() {
+        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(PLUS);
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onMinusButtonPressed() {
+        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MINIS);
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onMultiplicationButtonPressed() {
+        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MULTIPLY);
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onDivButtonPressed() {
+        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(DIVIDE);
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onModButtonPressed() {
+        Supplier<Token[]> tokenize = () -> tokenizer.addMathOperation(MOD);
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void OnBracketsButtonPressed() {
+        Supplier<Token[]> tokenize = tokenizer::addBracket;
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onBracketOpen() {
+        Supplier<Token[]> tokenize = tokenizer::addOpenedBracket;
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onBracketClose() {
+        Supplier<Token[]> tokenize = tokenizer::addClosedBracket;
+        Token[] tokens = tokenize.get();
+        for (Token token : tokens) {
+            textField.setText(textField.getText() + token.getValue());
+        }
+    }
+
+    public void onDeleteButtonPressed() {
+        if (!textField.getText().isEmpty()) {
+            textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
+            tokenizer.deleteLastToken();
+        }
+    }
+
+    public void onClearButtonPressed() {
+        textField.setText("");
+        tokenizer.clearTokens();
+    }
+
+    @FXML
+    private void onShiftButtonPressed() {
         isShiftMode = !isShiftMode; // Flip the state
         updateVisibility();
     }
 
     private void updateVisibility() {
-        if (isShiftMode) {
-            // Shift mode is active: show the split-button pane
-            normalModePane.setVisible(false);
-            shiftModePane.setVisible(true);
-        } else {
-            // Normal mode is active: show the default pane
-            normalModePane.setVisible(true);
-            shiftModePane.setVisible(false);
-        }
+        normalModePane.setVisible(!isShiftMode);
+        shiftModePane.setVisible(isShiftMode);
     }
 
     public void inEqualsButtonPressed() {

@@ -42,9 +42,9 @@ public class ReversePolishNotationParser implements Parser {
     }
 
     private void shuntingYard(BracketToken token, Deque<OperationNotationNode> operatorDeque, List<Node> polishNotation) {
-        if (token == OPENED_BRACKET) { // If left bracket -> push to stack
+        if (token == OPENED_BRACKET) {
             operatorDeque.addLast(BRACKET_NODE);
-        } else if (token == CLOSED_BRACKET) { // if right bracket then add everything inside excluding brackets to stack
+        } else if (token == CLOSED_BRACKET) {
             while (!operatorDeque.isEmpty() && operatorDeque.getFirst() != BRACKET_NODE) {
                 polishNotation.add(operatorDeque.removeFirst());
             }
