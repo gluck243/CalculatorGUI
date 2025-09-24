@@ -30,7 +30,10 @@ public class ReversePolishNotationParser implements Parser {
             } else if (token instanceof MathOperationToken operationToken) {
                 shuntingYard(operationToken, operatorDeque, polishNotation);
             } else if (token instanceof DigitToken || token == UNARY_MINUS) {
-                if (token == UNARY_MINUS && (operatorDeque.isEmpty() && polishNotation.isEmpty())) {
+                if (token == UNARY_MINUS &&
+                        (((operatorDeque.isEmpty() && polishNotation.isEmpty()) ||
+                                tokenList.get(i - 1).equals(OPENED_BRACKET)) &&
+                                    tokenList.get(i + 1).equals(OPENED_BRACKET))) {
                     shuntingYard(0, polishNotation);
                     shuntingYard(MINUS, operatorDeque, polishNotation);
                 }
