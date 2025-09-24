@@ -13,6 +13,7 @@ import java.util.List;
 import static com.ivanov.antony.parser.OperationNotationNode.BRACKET_NODE;
 import static com.ivanov.antony.tokenizer.BracketToken.CLOSED_BRACKET;
 import static com.ivanov.antony.tokenizer.BracketToken.OPENED_BRACKET;
+import static com.ivanov.antony.tokenizer.MathOperationToken.MINUS;
 import static com.ivanov.antony.tokenizer.SpecialTokens.DOT;
 import static com.ivanov.antony.tokenizer.SpecialTokens.UNARY_MINUS;
 
@@ -29,12 +30,18 @@ public class ReversePolishNotationParser implements Parser {
             } else if (token instanceof MathOperationToken operationToken) {
                 shuntingYard(operationToken, operatorDeque, polishNotation);
             } else if (token instanceof DigitToken || token == UNARY_MINUS) {
-                StringBuilder numberBuilder = new StringBuilder().append(token.getValue());
-                while (i + 1 < tokens.size() && (tokenList.get(i + 1) instanceof DigitToken || tokenList.get(i + 1) == DOT)) {
-                    numberBuilder.append(tokenList.get(i + 1).getValue());
-                    i++;
+                if (token == UNARY_MINUS && (operatorDeque.isEmpty() && polishNotation.isEmpty())) {
+                    shuntingYard(0, polishNotation);
+                    shuntingYard(MINUS, operatorDeque, polishNotation);
                 }
-                shuntingYard(Double.parseDouble(numberBuilder.toString()), polishNotation);
+                else {
+                    StringBuilder numberBuilder = new StringBuilder().append(token.getValue());
+                    while (i + 1 < tokens.size() && (tokenList.get(i + 1) instanceof DigitToken || tokenList.get(i + 1) == DOT)) {
+                        numberBuilder.append(tokenList.get(i + 1).getValue());
+                        i++;
+                    }
+                    shuntingYard(Double.parseDouble(numberBuilder.toString()), polishNotation);
+                }
             }
         }
         finalCleanup(operatorDeque, polishNotation); // Push the rest of the operatorStack to the output list
@@ -78,7 +85,7 @@ public class ReversePolishNotationParser implements Parser {
 
     private OperationNotationNode tokenToOperation(MathOperationToken token) {
         return switch (token) {
-            case MINIS -> OperationNotationNode.MINIS;
+            case MINUS -> OperationNotationNode.MINIS;
             case PLUS -> OperationNotationNode.PLUS;
             case MULTIPLY -> OperationNotationNode.MULTIPLY;
             case DIVIDE -> OperationNotationNode.DIVIDE;

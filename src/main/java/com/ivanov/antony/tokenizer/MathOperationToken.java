@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum MathOperationToken implements OperationToken {
 
-    MINIS('-'),
+    MINUS('-'),
     PLUS('+'),
     DIVIDE('/'),
     MULTIPLY('*'),

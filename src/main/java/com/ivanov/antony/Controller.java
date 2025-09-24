@@ -67,7 +67,7 @@ public class Controller {
     }
 
     public void onMinusButtonPressed() {
-        displayUpdate(() -> tokenizer.addMathOperation(MINIS), !tokenizer.isEmpty());
+        displayUpdate(() -> tokenizer.addMathOperation(MINUS), !tokenizer.isEmpty());
     }
 
     public void onMultiplicationButtonPressed() {
@@ -134,7 +134,6 @@ public class Controller {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             textField.setText("An unknown error occurred");
         } finally {
             tokenizer.clearTokens();
