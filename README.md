@@ -1,6 +1,6 @@
-# Java Swing Calculator
+# JavaFX Calculator
 
-A robust calculator built with Java and the Swing GUI framework. This project implements the core logic for parsing and evaluating complex mathematical expressions, including correct operator precedence, parentheses, and advanced features like implicit multiplication.
+A robust calculator built with Java and the JavaFX GUI framework. This project implements the core logic for parsing and evaluating complex mathematical expressions, including correct operator precedence, parentheses, and advanced features like implicit multiplication.
 
 ## Features
 
@@ -15,37 +15,44 @@ This calculator goes beyond basic arithmetic and includes features found in scie
 * **Floating-Point Arithmetic:** Handles decimal numbers and calculations.
 * **Unary Operator Support:** Correctly processes negative numbers (e.g., `5 * -2`).
 * **Implicit Multiplication:** Understands expressions where the multiplication sign is skipped, such as `5(2+3)` or `(5+3)(2+1)`.
-* **User-Friendly GUI:** A clean and intuitive interface built with Java Swing.
-* **Robust Error Handling:** Catches and provides user-friendly messages for invalid expressions like mismatched parentheses or division by zero.
+* **User-Friendly GUI:** A clean and intuitive interface built with JavaFX.
+* **Robust Error Handling:** Catches and provides messages for invalid expressions like mismatched parentheses or division by zero.
 
 ---
 
 ## Technologies Used
 
 * **Java:** The core programming language.
-* **Java Swing:** For building the graphical user interface.
-* **`jpackage` (JDK Tool):** Used to bundle the application into a native Windows executable installer.
+* **JavaFX:** Modern GUI framework for building the graphical user interface.
 
 ---
 
 ## How to Use
 
-### For Users
+Follow these instructions to build and run the project locally.
 
-You can download the Windows installer from the [Releases](https://github.com/gluck243/CalculatorGUI/releases) section of this repository. The `MyCalculator.exe` file will install the application on your system, and it does not require you to have Java installed.
+### Prerequisites
 
-### For Developers
+* **Java Development Kit (JDK)**: Version 11 or later.
+* **Apache Maven**: To manage dependencies and build the project.
 
-To run the project from the source code:
+### Steps
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/gluck243/CalculatorGUI.git
-   ```
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/gluck243/CalculatorGUI.git](https://github.com/gluck243/CalculatorGUI.git)
+    cd CalculatorGUI
+    ```
 
-2. Open the project in IDE of your choice (e.g., IntelliJ IDEA).
+2.  **Build the project with Maven:**
+    ```bash
+    mvn clean package
+    ```
 
-3. Locate the `Main.java` file and run it.
+3.  **Run the application:**
+    ```bash
+    java -jar target/calculator-1.0-SNAPSHOT.jar
+    ```
 
 ---
 
