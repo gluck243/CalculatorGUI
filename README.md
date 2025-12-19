@@ -40,8 +40,7 @@ Follow these instructions to build and run the project locally.
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/gluck243/CalculatorGUI.git](https://github.com/gluck243/CalculatorGUI.git)
-    cd CalculatorGUI
+    git clone https://github.com/gluck243/CalculatorGUI.git
     ```
 
 2.  **Build the project with Maven:**
